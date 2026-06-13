@@ -52,3 +52,35 @@ def add_idea(topic: str, lens: str, text: str, status: str = "generada") -> str:
         },
     )
     return idea_id
+
+
+def mark(topic: str, idea_id: str, status: str) -> None:
+    _validate_status(status)
+    _append(topic, {"type": "status", "id": idea_id, "status": status, "ts": _now()})
+
+
+def _read_records(topic: str) -> list:
+    f = corpus_file(slugify(topic))
+    if not f.exists():
+        return []
+    records = []
+    for line in f.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if line:
+            records.append(json.loads(line))
+    return records
+
+
+def list_ideas(topic: str) -> list:
+    records = _read_records(topic)
+    ideas = {}
+    order = []
+    for r in records:
+        if r.get("type") == "idea":
+            if r["id"] not in ideas:
+                order.append(r["id"])
+            ideas[r["id"]] = dict(r)
+    for r in records:
+        if r.get("type") == "status" and r["id"] in ideas:
+            ideas[r["id"]]["status"] = r["status"]
+    return [ideas[i] for i in order]
