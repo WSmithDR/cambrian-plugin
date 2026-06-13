@@ -8,11 +8,11 @@ def test_statuses():
 def test_lenses_has_six():
     lenses = config.lenses()
     assert len(lenses) == 6
-    names = [l["name"] for l in lenses]
+    names = [lens["name"] for lens in lenses]
     assert "minimalista" in names
     assert "restriccion-absurda" in names
-    for l in lenses:
-        assert l["mandate"].strip()
+    for lens in lenses:
+        assert lens["mandate"].strip()
 
 
 def test_thresholds():

@@ -35,8 +35,12 @@ def _append(topic: str, rec: dict) -> None:
 
 
 def add_idea(topic: str, lens: str, text: str, status: str = "generada") -> str:
+    if not topic or not topic.strip():
+        raise ValueError("topic must be a non-empty string")
     if not lens or not lens.strip():
         raise ValueError("lens must be a non-empty string")
+    if not text or not text.strip():
+        raise ValueError("text must be a non-empty string")
     _validate_status(status)
     idea_id = _gen_id(topic, lens, text)
     _append(
@@ -67,7 +71,10 @@ def _read_records(topic: str) -> list:
     for line in f.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if line:
-            records.append(json.loads(line))
+            try:
+                records.append(json.loads(line))
+            except json.JSONDecodeError:
+                continue
     return records
 
 

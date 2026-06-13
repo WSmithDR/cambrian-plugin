@@ -4,6 +4,7 @@ Lee config/*.json del repo (PLUGIN_ROOT/config), no del data dir.
 Comportamiento externalizado: lentes, umbrales y vocabulario se editan en JSON.
 """
 
+import functools
 import json
 
 from .paths import PLUGIN_ROOT
@@ -13,6 +14,7 @@ def _config_dir():
     return PLUGIN_ROOT / "config"
 
 
+@functools.lru_cache(maxsize=None)
 def load(name: str) -> dict:
     return json.loads((_config_dir() / name).read_text(encoding="utf-8"))
 

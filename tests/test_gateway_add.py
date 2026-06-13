@@ -40,6 +40,16 @@ def test_add_idea_rejects_empty_lens():
         gateway.add_idea("Docker", "", "x")
 
 
+def test_add_idea_rejects_empty_topic():
+    with pytest.raises(ValueError, match="topic"):
+        gateway.add_idea("", "minimalista", "x")
+
+
+def test_add_idea_rejects_whitespace_text():
+    with pytest.raises(ValueError, match="text"):
+        gateway.add_idea("Docker", "minimalista", "   ")
+
+
 def test_add_idea_is_append_only():
     gateway.add_idea("Docker", "minimalista", "idea uno")
     gateway.add_idea("Docker", "maximalista", "idea dos")
