@@ -135,7 +135,7 @@ El **proceso de mejora/aprendizaje es responsabilidad del meta-plugin `cli-plugi
 
 ## 9. Features del catálogo adoptados
 
-Resultado de la auditoría contra `cli-plugin-template` (CATALOG.md v1.7.0).
+Resultado de la auditoría contra `cli-plugin-template` (CATALOG.md v1.17.0).
 
 **Bakeados en la arquitectura (v1):**
 - `multi-cli-compat` — Claude Code + OpenCode (§2).
@@ -147,7 +147,11 @@ Resultado de la auditoría contra `cli-plugin-template` (CATALOG.md v1.7.0).
 
 **Al scaffoldear (higiene dev/publish, alto valor/bajo costo):**
 - `versioning`, `docs-conventions`, `health-check`, `git-hooks`, `portability-audit`.
+- `skill-structure-audit` — fuerza modularización (`SKILL.md` solo instrucciones, lógica → `scripts/`, plantillas → `references/`); enganchar en pre-commit/CI.
 - `skill-authoring` — convenciones CSO para que skill y command disparen.
+
+**Práctica durante el build (no es un componente del plugin):**
+- `plugin-capture-learning` — cada vez que aparezca un gotcha de compatibilidad CC↔OpenCode durante la construcción, capturarlo como `signal:discovery` en el store de evolución del meta-plugin.
 
 **Quality / fase 2:**
 - `skill-evals` — verificar que el skill liviano dispare cuando se piden ideas (optimizar `description`/CSO). Claude-Code-only.
