@@ -4,9 +4,15 @@ Plugin de Claude Code (y OpenCode) que **aumenta la creatividad** forzando diver
 
 > La explosión cámbrica fue un estallido súbito de formas diversas antes de que la selección convergiera. Este plugin hace lo mismo con ideas: estalla, después selecciona.
 
+## Uso
+
+**Divergencia inline (siempre disponible):** pedí ideas normal — "dame ideas para X", "alternativas a Y", "nombres para Z". El skill `diverge` se activa solo y fuerza divergencia (≥12 ideas crudas, inversión, analogías, restricciones) antes de converger.
+
+**Divergencia profunda:** `/brainstorm-extremo <tema>` — lanza 6 lentes contradictorias en paralelo (minimalista, maximalista, contrarian, interdisciplina, first-principles, restricción absurda) + un juez sintetizador. Te muestra el crudo de cada lente y después la síntesis. Recuerda lo ya explorado (anti-repetición) y persiste todo al corpus.
+
 ## Estado
 
-En construcción. **Plan 1 (este):** motor de corpus persistente. Plan 2: capas de divergencia (skill liviano + `/brainstorm-extremo`). Plan 3: publish/higiene.
+En construcción. **Plan 1 ✓** motor de corpus. **Plan 2 ✓** capas de divergencia (skill `diverge` + `/brainstorm-extremo`). Plan 3 (pendiente): publish/higiene (multi-CLI manifests, health-check, versioning, git-hooks, registro en meta-plugin).
 
 ## Motor de corpus (`bin/cambrian`)
 
