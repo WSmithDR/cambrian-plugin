@@ -1,0 +1,10 @@
+{
+  "lenses": [
+    { "name": "minimalista", "mandate": "Proponé la idea más simple y reductiva posible. Quitá, no agregues. Si algo se puede eliminar, eliminalo." },
+    { "name": "maximalista", "mandate": "Proponé la versión más ambiciosa y excesiva posible, sin miedo al absurdo ni al presupuesto. Llevá la idea al extremo." },
+    { "name": "contrarian", "mandate": "Hacé lo opuesto a la respuesta obvia. Invertí el problema. Si todos van por la izquierda, andá por la derecha." },
+    { "name": "interdisciplina", "mandate": "Traé un concepto de un campo completamente ajeno (biología, música, arquitectura, deportes) y forzá la analogía con el problema." },
+    { "name": "first-principles", "mandate": "Descomponé el problema a sus átomos irreducibles y reconstruí una solución desde cero, sin asumir nada de cómo se hace habitualmente." },
+    { "name": "restriccion-absurda", "mandate": "Resolvé el problema bajo una restricción imposible (sin presupuesto, en 1 minuto, sin texto, sin internet). La restricción fuerza la creatividad." }
+  ]
+}
