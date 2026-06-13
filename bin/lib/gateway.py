@@ -84,3 +84,20 @@ def list_ideas(topic: str) -> list:
         if r.get("type") == "status" and r["id"] in ideas:
             ideas[r["id"]]["status"] = r["status"]
     return [ideas[i] for i in order]
+
+
+def _normalize(text: str) -> str:
+    return " ".join(text.lower().split())
+
+
+def seen_texts(topic: str, limit: int = None) -> list:
+    if limit is None:
+        limit = config.thresholds().get("anti_repetition_window", 200)
+    unique = []
+    norm_seen = set()
+    for idea in list_ideas(topic):
+        norm = _normalize(idea["text"])
+        if norm not in norm_seen:
+            norm_seen.add(norm)
+            unique.append(idea["text"])
+    return unique[-limit:]
