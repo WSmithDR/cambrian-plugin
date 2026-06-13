@@ -47,6 +47,7 @@ def test_command_references_lenses_group():
 
 def test_command_defines_rooted_cambrian_var():
     text = (ROOT / "commands" / "brainstorm-extremo.md").read_text(encoding="utf-8")
-    assert 'CAMBRIAN="$CLAUDE_PLUGIN_ROOT/bin/cambrian"' in text, (
-        "el command debe definir CAMBRIAN rooteado a $CLAUDE_PLUGIN_ROOT"
-    )
+    # rooting portable: ambas env vars + CAMBRIAN derivado de PLUGIN_ROOT
+    assert "CLAUDE_PLUGIN_ROOT" in text
+    assert "OPENCODE_PLUGIN_ROOT" in text
+    assert 'CAMBRIAN="$PLUGIN_ROOT/bin/cambrian"' in text
