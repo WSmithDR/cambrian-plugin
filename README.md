@@ -10,9 +10,40 @@ Plugin de Claude Code (y OpenCode) que **aumenta la creatividad** forzando diver
 
 **Divergencia profunda:** `/brainstorm-extremo <tema>` — lanza 6 lentes contradictorias en paralelo (minimalista, maximalista, contrarian, interdisciplina, first-principles, restricción absurda) + un juez sintetizador. Te muestra el crudo de cada lente y después la síntesis. Recuerda lo ya explorado (anti-repetición) y persiste todo al corpus.
 
+## Instalación
+
+**1. Registrar el marketplace (una vez):**
+```bash
+claude plugin marketplace add WSmithDR/cambrian-plugin
+```
+
+**2. Instalar en el proyecto:**
+```bash
+claude plugin install cambrian-plugin@cambrian-plugin --scope project
+```
+
+## Actualizar
+
+> El CLI cachea el plugin: refrescá el marketplace y reinstalá.
+```bash
+/plugin marketplace update cambrian-plugin
+/plugin install cambrian-plugin@cambrian-plugin --scope project
+```
+En sesión activa, `/reload-plugins`. Verificá la versión con `/cambrian-health`.
+
+## Versionado
+
+Semver automático por prefijo de commit:
+
+| Prefijo | Bump |
+|---|---|
+| `feat:` | minor |
+| `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `ci:` | patch |
+| `feat!:` o `BREAKING CHANGE` | major |
+
 ## Estado
 
-En construcción. **Plan 1 ✓** motor de corpus. **Plan 2 ✓** capas de divergencia (skill `diverge` + `/brainstorm-extremo`). Plan 3 (pendiente): publish/higiene (multi-CLI manifests, health-check, versioning, git-hooks, registro en meta-plugin).
+**Plan 1 ✓** corpus engine · **Plan 2 ✓** capas de divergencia · **Plan 3 ✓** publish/higiene (multi-CLI, health, versioning, hooks). Pendiente: registro en el meta-plugin (`/plugin-register`).
 
 ## Motor de corpus (`bin/cambrian`)
 
@@ -34,9 +65,14 @@ bin/cambrian corpus mark --topic "Docker" --id <id> --status aceptada
 
 ## Desarrollo
 
+Tras clonar, instalá los git hooks (una vez):
+```bash
+bash bin/dev/setup.sh
+```
+
 ```bash
 pytest                 # suite completa
-bin/dev/smoke-test.sh  # round-trip end-to-end en data dir temporal
+bin/dev/smoke-test.sh  # round-trip del corpus en data dir temporal
 ```
 
 ## Configuración
