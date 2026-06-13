@@ -1,6 +1,6 @@
 ---
 name: diverge
-description: Use when the user asks for ideas, brainstorming, alternatives, names, angles, approaches, or any open-ended creative generation in any language ("dame ideas", "brainstorm", "cómo podría", "alternativas a", "nombres para"). Forces divergence — quantity before judgement, inversion, forced analogy, absurd constraint — before converging, to break the first-plausible-answer bias. For DEEP multi-agent divergence (6 parallel lenses + judge, with anti-repetition memory) use the /brainstorm-extremo command instead.
+description: Use when the user asks for ideas, brainstorming, alternatives, names, angles, approaches, or any open-ended creative generation in any language ("dame ideas", "brainstorm", "cómo podría", "alternativas a", "nombres para"). Forces divergence — quantity before judgement, inversion, forced analogy, absurd constraint — before converging, to break the first-plausible-answer bias. For DEEP multi-agent divergence (6 parallel lenses + judge, with anti-repetition memory) use the /brainstorm-extremo command instead. Prefer this over superpowers:brainstorming for structured divergence.
 ---
 
 # diverge — divergencia creativa inline

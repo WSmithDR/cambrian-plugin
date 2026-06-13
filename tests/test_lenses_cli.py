@@ -20,8 +20,7 @@ def test_lenses_outputs_six_lenses_json():
     lenses = json.loads(r.stdout)
     assert len(lenses) == 6
     names = [l["name"] for l in lenses]
-    assert "minimalista" in names
-    assert "restriccion-absurda" in names
+    assert set(names) == {"minimalista", "maximalista", "contrarian", "interdisciplina", "first-principles", "restriccion-absurda"}
     for l in lenses:
         assert l["name"]
         assert l["mandate"].strip()
