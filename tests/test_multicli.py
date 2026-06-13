@@ -1,4 +1,5 @@
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -21,7 +22,7 @@ def test_agents_md_exists_and_mentions_plugin():
 def test_claude_md_is_symlink_to_agents():
     p = ROOT / "CLAUDE.md"
     assert p.is_symlink()
-    assert Path(p.readlink()).name == "AGENTS.md"
+    assert os.path.basename(os.readlink(p)) == "AGENTS.md"
 
 
 def test_plugin_root_resolver_honors_env():
