@@ -1,0 +1,14 @@
+{
+  "name": "cambrian-plugin",
+  "owner": {
+    "name": "WSmithDR",
+    "url": "https://github.com/WSmithDR"
+  },
+  "plugins": [
+    {
+      "name": "cambrian-plugin",
+      "source": "./",
+      "description": "Aumenta la creatividad forzando divergencia multi-agente antes de converger. Domain-agnostic."
+    }
+  ]
+}

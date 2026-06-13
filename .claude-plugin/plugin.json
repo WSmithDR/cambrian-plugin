@@ -1,0 +1,21 @@
+{
+  "name": "cambrian-plugin",
+  "version": "0.1.0",
+  "description": "Aumenta la creatividad forzando divergencia multi-agente antes de converger. Domain-agnostic. Skill liviano de divergencia inline + workflow pesado /brainstorm-extremo (6 lentes + juez) con memoria anti-repetición.",
+  "author": {
+    "name": "WSmithDR",
+    "url": "https://github.com/WSmithDR"
+  },
+  "repository": "https://github.com/WSmithDR/cambrian-plugin",
+  "homepage": "https://github.com/WSmithDR/cambrian-plugin#readme",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "claude-code-plugin",
+    "creativity",
+    "brainstorming",
+    "multi-agent",
+    "divergent-thinking"
+  ],
+  "skills": "./skills/"
+}
