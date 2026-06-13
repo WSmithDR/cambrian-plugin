@@ -22,6 +22,15 @@ claude plugin marketplace add WSmithDR/cambrian-plugin
 claude plugin install cambrian-plugin@cambrian-plugin --scope project
 ```
 
+### OpenCode (global)
+
+cambrian es creatividad domain-agnostic, así que se registra **global** (disponible en cualquier proyecto), no per-repo. Una vez:
+```bash
+bash bin/install-opencode.sh          # registra en ~/.config/opencode/opencode.json
+bash bin/install-opencode.sh --uninstall   # revertir
+```
+Esto agrega el injector a `plugin[]` y `skills/` a `skills.paths`. Las skills (`diverge`, `cambrian-health`) quedan disponibles en toda sesión de OpenCode; el bootstrap de `AGENTS.md` solo se inyecta dentro de este repo (sentinel guard).
+
 ## Actualizar
 
 > El CLI cachea el plugin: refrescá el marketplace y reinstalá.
