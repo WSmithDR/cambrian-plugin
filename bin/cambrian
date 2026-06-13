@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+"""
+cambrian — CLI unificado de persistencia del plugin.
+Punto de entrada único: las skills nunca tocan disco; shellean a este CLI.
+Grupos de subcomandos: corpus (add/list/seen/mark).
+Los args de texto aceptan '-' para leer de stdin.
+"""
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from lib import gateway  # noqa: E402
+
+
+def _read_text(arg: str) -> str:
+    if arg == "-":
+        return sys.stdin.read().strip()
+    return arg
+
+
+def _build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(prog="cambrian")
+    groups = parser.add_subparsers(dest="group", required=True)
+
+    corpus = groups.add_parser("corpus", help="operaciones sobre el corpus de ideas")
+    cmds = corpus.add_subparsers(dest="cmd", required=True)
+
+    add = cmds.add_parser("add", help="append una idea")
+    add.add_argument("--topic", required=True)
+    add.add_argument("--lens", required=True)
+    add.add_argument("--text", required=True, help="texto de la idea, o '-' para stdin")
+    add.add_argument("--status", default="generada")
+
+    lst = cmds.add_parser("list", help="lista las ideas de un topic (JSON)")
+    lst.add_argument("--topic", required=True)
+
+    seen = cmds.add_parser("seen", help="textos únicos ya explorados (anti-repetición)")
+    seen.add_argument("--topic", required=True)
+    seen.add_argument("--limit", type=int, default=None)
+
+    mark = cmds.add_parser("mark", help="cambia el status de una idea")
+    mark.add_argument("--topic", required=True)
+    mark.add_argument("--id", required=True)
+    mark.add_argument("--status", required=True)
+
+    return parser
+
+
+def main(argv=None) -> int:
+    args = _build_parser().parse_args(argv)
+    try:
+        if args.group == "corpus":
+            if args.cmd == "add":
+                print(gateway.add_idea(args.topic, args.lens, _read_text(args.text), args.status))
+            elif args.cmd == "list":
+                print(json.dumps(gateway.list_ideas(args.topic), ensure_ascii=False, indent=2))
+            elif args.cmd == "seen":
+                print(json.dumps(gateway.seen_texts(args.topic, args.limit), ensure_ascii=False, indent=2))
+            elif args.cmd == "mark":
+                gateway.mark(args.topic, args.id, args.status)
+                print("ok")
+    except ValueError as e:
+        print(str(e), file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
