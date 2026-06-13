@@ -47,6 +47,8 @@ def _build_parser() -> argparse.ArgumentParser:
     mark.add_argument("--id", required=True)
     mark.add_argument("--status", required=True)
 
+    groups.add_parser("lenses", help="emite las 6 lentes divergentes (JSON) desde config")
+
     return parser
 
 
@@ -63,6 +65,10 @@ def main(argv=None) -> int:
             elif args.cmd == "mark":
                 gateway.mark(args.topic, args.id, args.status)
                 print("ok")
+        elif args.group == "lenses":
+            from lib import config
+
+            print(json.dumps(config.lenses(), ensure_ascii=False, indent=2))
     except ValueError as e:
         print(str(e), file=sys.stderr)
         return 1
