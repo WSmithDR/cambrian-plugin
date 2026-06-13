@@ -1,0 +1,20 @@
+#!/bin/bash
+# pre-commit — corre pytest y el audit de estructura de skills.
+# Instalado via symlink por bin/dev/setup.sh. Skip: git commit --no-verify
+set -euo pipefail
+PLUGIN_ROOT="$(cd "$(git rev-parse --show-toplevel)" && pwd)"
+cd "$PLUGIN_ROOT"
+
+echo "--- pytest..."
+python3 -m pytest tests/ -q || { echo "--- Tests FAILED. Commit bloqueado (--no-verify para saltar)."; exit 1; }
+echo "--- Tests OK."
+
+if [ -f "$PLUGIN_ROOT/bin/audit-skill-structure.py" ]; then
+  echo "--- skill structure audit..."
+  python3 "$PLUGIN_ROOT/bin/audit-skill-structure.py" --threshold ERROR || {
+    echo "--- Skill structure audit FAILED. Commit bloqueado."; exit 1; }
+  echo "--- Skill structure audit OK."
+fi
+
+echo "--- OK."
+exit 0
