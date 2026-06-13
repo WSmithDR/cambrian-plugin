@@ -1,0 +1,59 @@
+#!/bin/bash
+# post-commit: auto-bump semver en plugin.json (y sync marketplace/opencode) y amenda el commit.
+# feat: -> minor | fix/chore/docs/refactor/... -> patch | feat!: o BREAKING CHANGE -> major
+set -euo pipefail
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+PLUGIN_JSON="$REPO_ROOT/.claude-plugin/plugin.json"
+SENTINEL="$REPO_ROOT/.git/.version-bump-in-progress"
+
+[ -f "$SENTINEL" ] && exit 0
+if git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -q "\.claude-plugin/plugin\.json"; then
+  exit 0
+fi
+
+MSG="$(git log -1 --pretty=%B)"
+if echo "$MSG" | grep -qE '^feat(\(.+\))?!:|BREAKING[[:space:]]CHANGE'; then BUMP="major"
+elif echo "$MSG" | grep -qE '^feat(\(.+\))?:'; then BUMP="minor"
+else BUMP="patch"; fi
+
+CURRENT="$(python3 -c "import json;print(json.load(open('$PLUGIN_JSON'))['version'])")"
+if ! echo "$CURRENT" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+  echo "post-commit: versión inválida '$CURRENT' — saltando"; exit 0
+fi
+
+NEW="$(CURRENT="$CURRENT" BUMP="$BUMP" python3 -c "
+import os
+v = os.environ['CURRENT'].split('.'); M,m,p = int(v[0]),int(v[1]),int(v[2])
+b = os.environ['BUMP']
+if b=='major': M,m,p = M+1,0,0
+elif b=='minor': m,p = m+1,0
+else: p += 1
+print(f'{M}.{m}.{p}')")"
+
+NEW="$NEW" REPO_ROOT="$REPO_ROOT" python3 -c '
+import json, os
+new = os.environ["NEW"]; root = os.environ["REPO_ROOT"]
+def upd(rel, fn):
+    full = os.path.join(root, rel)
+    if not os.path.exists(full): return
+    with open(full) as f: d = json.load(f)
+    fn(d)
+    with open(full, "w") as f:
+        json.dump(d, f, indent=2); f.write("\n")
+def set_top(d): d["version"] = new
+def set_market(d):
+    if isinstance(d.get("metadata"), dict) and "version" in d["metadata"]: d["metadata"]["version"] = new
+    for p in d.get("plugins", []):
+        if isinstance(p, dict) and "version" in p: p["version"] = new
+upd(".claude-plugin/plugin.json", set_top)
+upd(".claude-plugin/marketplace.json", set_market)
+'
+
+for rel in .claude-plugin/plugin.json .claude-plugin/marketplace.json; do
+  [ -f "$REPO_ROOT/$rel" ] && git add "$REPO_ROOT/$rel"
+done
+
+touch "$SENTINEL"
+git commit --amend --no-edit --no-verify
+rm -f "$SENTINEL"
+echo "  version: $CURRENT -> $NEW ($BUMP)"

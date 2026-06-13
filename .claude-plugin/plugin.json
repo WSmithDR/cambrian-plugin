@@ -1,7 +1,7 @@
 {
   "name": "cambrian-plugin",
-  "version": "0.1.0",
-  "description": "Aumenta la creatividad forzando divergencia multi-agente antes de converger. Domain-agnostic. Skill liviano de divergencia inline + workflow pesado /brainstorm-extremo (6 lentes + juez) con memoria anti-repetición.",
+  "version": "0.2.0",
+  "description": "Aumenta la creatividad forzando divergencia multi-agente antes de converger. Domain-agnostic. Skill liviano de divergencia inline + workflow pesado /brainstorm-extremo (6 lentes + juez) con memoria anti-repetici\u00f3n.",
   "author": {
     "name": "WSmithDR",
     "url": "https://github.com/WSmithDR"

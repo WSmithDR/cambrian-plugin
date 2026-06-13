@@ -8,6 +8,7 @@
     {
       "name": "cambrian-plugin",
       "source": "./",
+      "version": "0.2.0",
       "description": "Aumenta la creatividad forzando divergencia multi-agente antes de converger. Domain-agnostic."
     }
   ]
